@@ -1,0 +1,246 @@
+:root {
+  --cell-size: 90px;  /* Increased from 60px to 90px (50% larger) */
+  --board-color: #f0d9b5;
+  --piece-color: #b58863;
+  --cao-color: #d18b47;
+  --text-color: #f4f4f4;
+  --border-color: #000000;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background: #2f2f2f;
+  font-family: Arial, sans-serif;
+}
+
+.game-container {
+  text-align: center;
+}
+
+.board-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, var(--cell-size));
+  grid-template-rows: repeat(5, var(--cell-size));
+  gap: 2px;
+  padding: 10px;
+  background: var(--board-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  border: 5px solid var(--border-color); /* Add border to the wrapper */
+  border-radius: 10px; /* Optional: Match border-radius with .board */
+  padding: 10px; /* Optional: Add padding to the wrapper */
+  border-bottom-width: 0px;
+}
+
+.piece {
+  background: var(--piece-color);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: var(--text-color);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.piece:hover {
+  filter: brightness(1.1);
+}
+
+.piece.selected {
+  filter: brightness(1.2);
+  transform: scale(0.95);
+}
+
+.piece.cao {
+  background: var(--cao-color);
+}
+
+.controls {
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background: var(--piece-color);
+  color: var(--text-color);
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+.stats {
+  margin-top: 10px;
+  color: var(--text-color);
+}
+
+.direction-arrow {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center; /* Center the SVG icon vertically */
+  cursor: pointer;
+  z-index: 100;
+  transition: transform 0.2s;
+}
+
+.direction-arrow:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+.direction-arrow svg {
+  fill: var(--text-color);
+}
+
+.level-selector {
+  margin-bottom: 20px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+}
+
+.level-selector select {
+  padding: 8px 15px;
+  font-size: 16px;
+  border: 2px solid var(--piece-color);
+  border-radius: 4px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  cursor: pointer;
+}
+
+.level-selector select:hover {
+  border-color: var(--cao-color);
+}
+
+.language-selector {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.language-selector select {
+  padding: 8px 15px;
+  font-size: 16px;
+  border: 2px solid var(--piece-color);
+  border-radius: 4px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  cursor: pointer;
+}
+
+.controls-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.hint-btn {
+  margin-left: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  background: #666;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hint-btn:hover {
+  background: #888;
+}
+
+.tooltip-container {
+  display: inline-block;
+  position: relative;
+  margin-left: 8px;
+  align-items: center;
+}
+
+.tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: #666;
+  color: white;
+  font-weight: bold;
+  cursor: help;
+}
+
+.tooltip-content {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 10px;
+  width: 200px;
+  background: var(--board-color);
+  color: var(--piece-color);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 100;
+}
+
+.tooltip-content::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent var(--board-color) transparent;
+}
+
+.tooltip-header {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.tooltip-container:hover .tooltip-content {
+  display: block;
+}
+
+.tooltip-content h3 {
+  margin: 12px 0 8px;
+  color: var(--cao-color);
+}
+
+.tooltip-content p {
+  margin: 0 0 8px 0;
+  line-height: 1.4;
+}
+
+.game-intro {
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
