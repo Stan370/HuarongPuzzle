@@ -1,18 +1,22 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["ES2022","DOM"],
     "outDir": "dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "jsxFactory": "Devvit.createElement",
+    "jsxFragmentFactory": "Devvit.Fragment",
+
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/**/*", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/**/*", ".next/types/**/*.ts", "webroot/types"],
   "exclude": ["node_modules", "dist"],
-  "extends": "@devvit/public-api/devvit.tsconfig.json"
+  "extends": "@devvit/public-api/devvit.tsconfig.json",
 }

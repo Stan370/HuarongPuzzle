@@ -1,4 +1,5 @@
 import LEVELS from "./gameLayout.js";
+import Devvit from "../src/main.js";
 import { translations, Language } from './translations.js';
 
 interface Block {
@@ -31,6 +32,7 @@ export class HuarongGame {
   private userId: string | null = null;
   private currentLevel: number;
   private language: Language = navigator.language.toLowerCase().startsWith('en') ? 'en' : 'zh';
+  private username: string = 'anonymous';
 
   private generals = ["张飞", "马超", "赵云", "黄忠"];
   private generalIndex = 0;
@@ -76,6 +78,45 @@ export class HuarongGame {
     this.initializeLevelSelector();
     this.initializeLanguageSelector();
     this.initializeHintSystem();
+    this.setupMessageHandlers();
+  }
+
+  private setupMessageHandlers() {
+    window.addEventListener('message', async (event) => {
+      const message = event.data;
+      if (message.type === 'initialData') {
+        this.username = message.data.username;
+        this.requestBestScore();
+      }
+      if (message.type === 'bestScoreResponse') {
+        const score = message.data.score;
+        if (score !== null) {
+          this.bestScore = score;
+          this.updateStats();
+        }
+      }
+    });
+  }
+
+  private requestBestScore() {
+    window.parent.postMessage({
+      type: 'getBestScore',
+      data: {
+        username: this.username,
+        level: this.currentLevel
+      }
+    }, '*');
+  }
+
+  private async updateBestScore(newScore: number) {
+    window.parent.postMessage({
+      type: 'updateScore',
+      data: {
+        username: this.username,
+        level: this.currentLevel,
+        score: newScore
+      }
+    }, '*');
   }
 
   private initializeHintSystem() {
@@ -470,6 +511,10 @@ export class HuarongGame {
             this.bestScore = this.moves;
             localStorage.setItem(scoreKey, this.moves.toString());
           }
+        }
+
+        if (this.username) {
+          this.updateBestScore(this.moves);
         }
 
         alert(`Congratulations! You won in ${this.moves} moves!`);

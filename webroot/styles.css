@@ -1,5 +1,5 @@
 :root {
-  --cell-size: 90px;  /* Increased from 60px to 90px (50% larger) */
+  --cell-size: 60px;  /* Increased from 60px to 90px (50% larger) */
   --board-color: #f0d9b5;
   --piece-color: #b58863;
   --cao-color: #d18b47;
@@ -19,6 +19,8 @@ body {
 
 .game-container {
   text-align: center;
+  height: 100%;
+
 }
 
 .board-wrapper {
